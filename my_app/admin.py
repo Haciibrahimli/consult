@@ -3,7 +3,7 @@ from my_app.models import *
 
 admin.site.register(Team)
 admin.site.register(Testimonial)
-# admin.site.register(Contact)
+admin.site.register(Comment)
 # admin.site.register(Blog)
 
 class ServiceAdmin(admin.ModelAdmin):

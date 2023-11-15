@@ -112,6 +112,25 @@ class Testimonial(SlugMixin, DateMixin):
      verbose_name = 'istifadeci reyi'
      verbose_name_plural = 'istifadeci reyleri'
 
+class Comment(DateMixin, SlugMixin):
+    text = models.TextField(verbose_name="User's comment")
+    blog = models.ForeignKey(Blog, on_delete=models.SET_NULL, null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+
+
+    def __str__(self):
+        return self.text[:10]
+
+    class Meta:
+        ordering = ("-created_at", )
+        verbose_name = "Rey"
+        verbose_name_plural = "Reyler"
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = Generator.create_slug_shortcode(size=10, model_=Comment)
+        super(Comment, self).save(*args, **kwargs)
+
 
 
 

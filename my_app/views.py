@@ -1,7 +1,8 @@
 
 from django.shortcuts import redirect, render
-from my_app.models import Blog, Service
+from my_app.models import Blog, Service, Comment
 from django.contrib.auth import authenticate, login, logout
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 
 def service_view(request):
@@ -43,20 +44,47 @@ def logout_view(request):
 def blog_view(request):
 
     blogs = Blog.objects.all()
+
+    blog = request.GET.get('blog') #search
+    if blog is not None:
+       blogs = blogs.filter(title__icontains = blog)
+
+    paginator = Paginator(blogs, 1) #pagination
+    page = request.GET.get('page', 1)
+    p = paginator.get_page(page)
+
+    try:
+        p = paginator.page(page)
+    except PageNotAnInteger:
+        p = paginator.page(1)
+    except EmptyPage:
+        p = paginator.page(paginator.num_pages)
  
 
     context = {
-    'blogs':blogs
-    }
+         'blogs':blogs,
+         'p':p     
+           }
     return render(request,'blog.html',context)
 
 
 def blog_detail_view(request,slug):
 
     blog = Blog.objects.get(slug=slug)
+    comments = Comment.objects.filter(blog=blog) #comment
+
+    if request.method == "POST":
+        comment = request.POST.get("comment")
+        my_obj = Comment.objects.create(
+            text=comment, user=request.user, blog=blog
+        )
+        my_obj.save()
+    
+   
 
     context = {
-    'blog':blog
+    'blog':blog,
+    "comments": comments
     }
     return render(request,'detail.html',context)
 
