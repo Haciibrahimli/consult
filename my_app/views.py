@@ -1,8 +1,25 @@
 
 from django.shortcuts import redirect, render
-from my_app.models import Blog, Service, Comment
+from my_app.models import Blog, Service, Comment, AboutModel, AboutSideBar, SosialMedia,Subscribe
+from my_app.forms import  ContactForm
 from django.contrib.auth import authenticate, login, logout
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+
+def index_view(request):
+
+    if request.method == "POST":
+      sub_email = request.POST.get("sub")
+      if sub_email:
+        obj = Subscribe.objects.create(
+          email=sub_email
+        )
+        obj.save()
+
+    context = {
+    
+    }
+    return render(request,'index.html',context)
+
 
 
 def service_view(request):
@@ -88,5 +105,30 @@ def blog_detail_view(request,slug):
     }
     return render(request,'detail.html',context)
 
+
+def about_view(request):
+    about = AboutModel.objects.first()
+    side_bar = AboutSideBar.objects.first()
+    socials = SosialMedia.objects.all()
+    context ={
+       'about':about, 
+       'side_bar':side_bar,
+       'socials':socials
+    }
+    return render(request,'about.html',context)
+
+def contact_view(request):
+    form = ContactForm()
+
+    if request.method == 'POST':
+        form = ContactForm(request.POST or None)
+        if form.is_valid():
+            form.save()
+            form = ContactForm()
+
+    context ={
+      'form':form 
+    }
+    return render(request,'contact.html',context)
 
 

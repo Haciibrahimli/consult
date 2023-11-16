@@ -4,6 +4,15 @@ from services.generator import Generator
 from services.uploader import Uploader
 from django.contrib.auth import get_user_model 
 
+SOCIAL_CHOICES = (
+    ("insta", "Instagram"),
+    ("fb", "Facebook"),
+    ("wp", "WhatsApp"),
+    ("twitter", "Twitter"),
+    ("linkedin", "Linkedin"),
+    ("tiktok", "Tiktok")
+)
+
 User = get_user_model()
 
 class Service(SlugMixin, DateMixin):
@@ -131,6 +140,70 @@ class Comment(DateMixin, SlugMixin):
             self.slug = Generator.create_slug_shortcode(size=10, model_=Comment)
         super(Comment, self).save(*args, **kwargs)
 
+
+class AboutModel(DateMixin):
+    title = models.CharField(max_length=255,verbose_name='title')
+    sub_title = models.CharField(max_length=255,verbose_name='sub title')
+    description = models.TextField(verbose_name='text')
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        ordering = ("-created_at", )
+        verbose_name = "About"
+        verbose_name_plural = "About"
+    
+class AboutSideBar(DateMixin):
+    title_1 = models.CharField(max_length=255,verbose_name='title 1')
+    desc_1 = models.TextField(verbose_name='description 1')
+    image_1 = models.ImageField(upload_to=Uploader.upload_photo_to_about)
+
+    title_2 = models.CharField(max_length=255,verbose_name='title 2')
+    desc_2 = models.TextField(verbose_name='description 2')
+    image_2 = models.ImageField(upload_to=Uploader.upload_photo_to_about)
+
+    title_3 = models.CharField(max_length=255,verbose_name='title 3')
+    desc_3 = models.TextField(verbose_name='description 3')
+    image_3 = models.ImageField(upload_to=Uploader.upload_photo_to_about)
+
+
+    def __str__(self):
+        return f"{self.title_1},{self.title_2},{self.title_3}"
+
+    class Meta:
+        ordering = ("-created_at", )
+        verbose_name = "About Side Bar"
+        verbose_name_plural = "About Side Bar"
+
+class SosialMedia(DateMixin):
+    sosial_name = models.CharField(max_length=255,verbose_name='sosial media hesabi',choices=SOCIAL_CHOICES)
+    sosial_link = models.TextField(verbose_name='sosial media linki')
+
+    def __str__(self):
+        return self.sosial_name
+
+    class Meta:
+        ordering = ("sosial_name", )
+        verbose_name = "sosial media hesabi"
+        verbose_name_plural = "sosial media hesablari"
+
+
+class Subscribe(DateMixin):
+    email = models.EmailField(verbose_name='email')
+
+    def __str__(self):
+        return self.email
+
+    class Meta:
+        ordering = ("-created_at", )
+        verbose_name = "abune"
+        verbose_name_plural = "abuneler"
+    
+
+
+
+ 
 
 
 

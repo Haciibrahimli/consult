@@ -12,3 +12,7 @@ class Uploader:
     @staticmethod
     def upload_photo_to_service(instance, filename):
         return f"services/{instance.slug}/{filename}"
+    
+    @staticmethod
+    def upload_photo_to_about(instance, filename):
+        return f"about/{filename}"
