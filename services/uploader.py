@@ -16,3 +16,7 @@ class Uploader:
     @staticmethod
     def upload_photo_to_about(instance, filename):
         return f"about/{filename}"
+    
+    @staticmethod
+    def upload_photo_to_slider(instance, filename):
+        return f"slider/{filename}"

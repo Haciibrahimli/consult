@@ -199,8 +199,18 @@ class Subscribe(DateMixin):
         ordering = ("-created_at", )
         verbose_name = "abune"
         verbose_name_plural = "abuneler"
-    
 
+class HomeSlider(DateMixin):
+    title = models.CharField(max_length=255,verbose_name='title')
+    image = models.ImageField(upload_to=Uploader.upload_photo_to_slider,verbose_name='slider image')
+    
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        ordering = ("-created_at", )
+        verbose_name = "Home slider"
+        verbose_name_plural = "Home sliders"
 
 
  

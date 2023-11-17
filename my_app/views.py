@@ -1,7 +1,7 @@
 
 from django.shortcuts import redirect, render
-from my_app.models import Blog, Service, Comment, AboutModel, AboutSideBar, SosialMedia,Subscribe
-from my_app.forms import  ContactForm
+from my_app.models import Blog, Service, Comment, AboutModel, AboutSideBar, SosialMedia,Subscribe,HomeSlider,Quota
+from my_app.forms import  ContactForm,QuotaForm
 from django.contrib.auth import authenticate, login, logout
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
@@ -15,9 +15,13 @@ def index_view(request):
         )
         obj.save()
 
+
+    sliders = HomeSlider.objects.all()
+
     context = {
-    
+          'sliders':sliders,
     }
+
     return render(request,'index.html',context)
 
 
@@ -131,4 +135,18 @@ def contact_view(request):
     }
     return render(request,'contact.html',context)
 
+def quote_view(request):
+    form = QuotaForm()
 
+    if request.method == 'POST':
+        form = QuotaForm(request.POST or None)
+        if form.is_valid():
+            form.save()
+            form = QuotaForm()
+
+    quote = Quota.objects.all()
+    context = {
+       'quote':quote, 
+       'form':form
+    }
+    return render(request,'quote.html',context)
