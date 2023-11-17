@@ -1,6 +1,7 @@
 
 from django.shortcuts import redirect, render
-from my_app.models import Blog, Service, Comment, AboutModel, AboutSideBar, SosialMedia,Subscribe,HomeSlider,Quota
+from my_app.models import (Blog, Service, Comment, AboutModel, AboutSideBar, 
+                           SosialMedia,Subscribe,HomeSlider,Quota,Testimonial,Team)
 from my_app.forms import  ContactForm,QuotaForm
 from django.contrib.auth import authenticate, login, logout
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
@@ -150,3 +151,25 @@ def quote_view(request):
        'form':form
     }
     return render(request,'quote.html',context)
+
+
+def testimonial_view(request):
+    reyler = Testimonial.objects.all()
+    
+
+    context = {
+        'reyler':reyler
+      
+    }
+    return render(request,'testimonial.html',context)
+    
+def team_view(request):
+    comanda = Team.objects.all()
+    
+
+    context = {
+        'comanda':comanda
+      
+    }
+    return render(request,'team.html',context)
+

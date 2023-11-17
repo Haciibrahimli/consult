@@ -94,7 +94,7 @@ class Contact(SlugMixin, DateMixin):
          self.slug = Generator.create_slug_shortcode(size=10, model_=Contact)
         super(Contact, self).save(*args, **kwargs)
 
-class Team(SlugMixin, DateMixin):
+class Team(DateMixin):
     name = models.CharField(max_length=255,verbose_name='ad')
     position = models.CharField(max_length=255,verbose_name='vezifesi')
     image = models.ImageField(upload_to=Uploader.upload_photo_to_team)
@@ -108,9 +108,10 @@ class Team(SlugMixin, DateMixin):
      verbose_name = 'comanda'
      verbose_name_plural = 'comanda'
   
-class Testimonial(SlugMixin, DateMixin):
+class Testimonial(DateMixin):
     description = models.TextField(verbose_name='metn')
     user  = models.ForeignKey(User,on_delete=models.SET_NULL,null=True,blank=True)
+    profesion  = models.CharField(max_length=255,verbose_name='ixtisas',null=True,blank=True)
 
     def __str__(self):
         return self.description[0:5]

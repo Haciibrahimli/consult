@@ -10,6 +10,7 @@ admin.site.register(SosialMedia)
 admin.site.register(Subscribe)
 admin.site.register(HomeSlider)
 
+
 class ServiceAdmin(admin.ModelAdmin):
     list_display = ('title', 'description','image', 'slug', 'updated_at', 'created_at')
 
