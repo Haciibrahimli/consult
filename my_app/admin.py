@@ -9,6 +9,9 @@ admin.site.register(AboutSideBar)
 admin.site.register(SosialMedia)
 admin.site.register(Subscribe)
 admin.site.register(HomeSlider)
+admin.site.register(Location)
+admin.site.register(Emails)
+admin.site.register(Phones)
 
 
 class ServiceAdmin(admin.ModelAdmin):

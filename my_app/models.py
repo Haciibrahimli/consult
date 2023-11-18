@@ -213,6 +213,60 @@ class HomeSlider(DateMixin):
         verbose_name = "Home slider"
         verbose_name_plural = "Home sliders"
 
+class Emails(DateMixin):
+    email = models.EmailField(verbose_name='Email')
+    
+    def __str__(self):
+        return self.email
+
+    class Meta:
+        ordering = ("-created_at", )
+        verbose_name = "Email"
+        verbose_name_plural = "Emailler"
+
+class Phones(DateMixin):
+    phone = models.CharField(max_length=255,verbose_name='phone number')
+
+    def __str__(self):
+        return self.phone
+
+    class Meta:
+        ordering = ("-created_at", )
+        verbose_name = "phone"
+        verbose_name_plural = "phones"
+
+class Location(DateMixin):
+    location = models.CharField(max_length=255,verbose_name='location')
+
+    def __str__(self):
+        return self.location
+
+    class Meta:
+        ordering = ("-created_at", )
+        verbose_name = "location"
+        verbose_name_plural = "locations"
+
+class MainDetails(DateMixin):
+    emails = models.ManyToManyField(Emails,verbose_name='Emails')
+    locations = models.ManyToManyField(Location,verbose_name='locations')
+    phones = models.ManyToManyField(Phones,verbose_name='phones')
+    logo = models.ImageField(upload_to=Uploader.upload_photo_to_logo)
+    logo_name = models.CharField(max_length=255,verbose_name='right side of logo')
+
+    def __str__(self):
+        return self.logo_name
+
+    class Meta:
+        ordering = ("-created_at", )
+        verbose_name = "main information"
+        verbose_name_plural = "main informations"
+
+
+
+   
+
+
+
 
  
 
