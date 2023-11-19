@@ -3,6 +3,7 @@ from services.mixin import SlugMixin, DateMixin
 from services.generator import Generator
 from services.uploader import Uploader
 from django.contrib.auth import get_user_model 
+from services.extract import extract_google_maps_url_from_iframe
 
 SOCIAL_CHOICES = (
     ("insta", "Instagram"),
@@ -78,6 +79,7 @@ class Contact(SlugMixin, DateMixin):
     email = models.CharField(max_length=255,verbose_name='email adress')
     subject = models.CharField(max_length=255,verbose_name='movzu')
     mesage = models.TextField(verbose_name='mesaj')
+    map_url = models.TextField(verbose_name='xerite',null=True,blank=True)
     
 
     def __str__(self):
@@ -252,6 +254,7 @@ class MainDetails(DateMixin):
     phones = models.ManyToManyField(Phones,verbose_name='phones')
     logo = models.ImageField(upload_to=Uploader.upload_photo_to_logo)
     logo_name = models.CharField(max_length=255,verbose_name='right side of logo')
+    
 
     def __str__(self):
         return self.logo_name
@@ -260,6 +263,13 @@ class MainDetails(DateMixin):
         ordering = ("-created_at", )
         verbose_name = "main information"
         verbose_name_plural = "main informations"
+
+    def save(self, *args, **kwargs):
+      extracted_url = extract_google_maps_url_from_iframe(self.map_url)
+      if extracted_url:
+        self.map_url = extracted_url
+      super(MainDetails, self).save(*args, **kwargs)  
+
 
 
 

@@ -1,12 +1,13 @@
 
 from django.shortcuts import redirect, render
 from my_app.models import (Blog, Service, Comment, AboutModel, AboutSideBar, 
-                           SosialMedia,Subscribe,HomeSlider,Quota,Testimonial,Team)
+                           SosialMedia,Subscribe,HomeSlider,Quota,Testimonial,Team,MainDetails,Contact)
 from my_app.forms import  ContactForm,QuotaForm
 from django.contrib.auth import authenticate, login, logout
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 def index_view(request):
+    main_detail = MainDetails.objects.first()
 
     if request.method == "POST":
       sub_email = request.POST.get("sub")
@@ -21,6 +22,7 @@ def index_view(request):
 
     context = {
           'sliders':sliders,
+          'main_detail':main_detail,
     }
 
     return render(request,'index.html',context)
@@ -123,6 +125,7 @@ def about_view(request):
     return render(request,'about.html',context)
 
 def contact_view(request):
+    obj = Contact.objects.all()
     form = ContactForm()
 
     if request.method == 'POST':
@@ -132,7 +135,8 @@ def contact_view(request):
             form = ContactForm()
 
     context ={
-      'form':form 
+      'form':form,
+      'obj':obj,
     }
     return render(request,'contact.html',context)
 

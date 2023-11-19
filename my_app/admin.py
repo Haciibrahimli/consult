@@ -12,6 +12,7 @@ admin.site.register(HomeSlider)
 admin.site.register(Location)
 admin.site.register(Emails)
 admin.site.register(Phones)
+admin.site.register(MainDetails)
 
 
 class ServiceAdmin(admin.ModelAdmin):
