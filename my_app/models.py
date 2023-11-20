@@ -79,7 +79,7 @@ class Contact(SlugMixin, DateMixin):
     email = models.CharField(max_length=255,verbose_name='email adress')
     subject = models.CharField(max_length=255,verbose_name='movzu')
     mesage = models.TextField(verbose_name='mesaj')
-    map_url = models.TextField(verbose_name='xerite',null=True,blank=True)
+    
     
 
     def __str__(self):
@@ -254,6 +254,7 @@ class MainDetails(DateMixin):
     phones = models.ManyToManyField(Phones,verbose_name='phones')
     logo = models.ImageField(upload_to=Uploader.upload_photo_to_logo)
     logo_name = models.CharField(max_length=255,verbose_name='right side of logo')
+    map_url = models.TextField(verbose_name='xerite',null=True,blank=True)
     
 
     def __str__(self):

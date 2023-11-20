@@ -125,9 +125,9 @@ def about_view(request):
     return render(request,'about.html',context)
 
 def contact_view(request):
-    obj = Contact.objects.all()
+   
     form = ContactForm()
-
+    
     if request.method == 'POST':
         form = ContactForm(request.POST or None)
         if form.is_valid():
@@ -136,7 +136,8 @@ def contact_view(request):
 
     context ={
       'form':form,
-      'obj':obj,
+      
+      
     }
     return render(request,'contact.html',context)
 
@@ -176,4 +177,6 @@ def team_view(request):
       
     }
     return render(request,'team.html',context)
+
+
 
