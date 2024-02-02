@@ -5,6 +5,21 @@ from my_app.models import (Blog, Service, Comment, AboutModel, AboutSideBar,
 from my_app.forms import  ContactForm,QuotaForm
 from django.contrib.auth import authenticate, login, logout
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.urls import reverse, translate_url
+from django.conf import settings
+
+
+def set_language(request, lang_code): # translate
+    referer = request.META.get("HTTP_REFERER")
+
+    if referer:
+        response = redirect(translate_url(referer, lang_code))
+    else:
+        response = redirect(reverse('home'))
+
+    response.set_cookie(settings.LANGUAGE_COOKIE_NAME, lang_code)
+    return response
+
 
 def index_view(request):
     main_detail = MainDetails.objects.first()

@@ -1,4 +1,8 @@
 {% load static %}
+{% load i18n %}
+
+{% get_current_language as LANGUAGE_CODE %}
+{% get_available_languages as LANGUAGES %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -38,11 +42,11 @@
         <div class="row gx-0">
             <div class="col-md-6 text-center text-lg-start mb-2 mb-lg-0">
                 <div class="d-inline-flex align-items-center">
-                    <a class="text-body py-2 pe-3 border-end" href=""><small>FAQs</small></a>
-                    <a class="text-body py-2 px-3 border-end" href=""><small>Support</small></a>
-                    <a class="text-body py-2 px-3 border-end" href=""><small>Privacy</small></a>
-                    <a class="text-body py-2 px-3 border-end" href=""><small>Policy</small></a>
-                    <a class="text-body py-2 ps-3" href=""><small>Career</small></a>
+                    <a class="text-body py-2 pe-3 border-end" href=""><small>{% trans 'FAQs' %}</small></a>
+                    <a class="text-body py-2 px-3 border-end" href=""><small>{% trans 'Support' %}</small></a>
+                    <a class="text-body py-2 px-3 border-end" href=""><small>{% trans 'Privacy' %}</small></a>
+                    <a class="text-body py-2 px-3 border-end" href=""><small>{% trans 'Policy' %}</small></a>
+                    <a class="text-body py-2 ps-3" href=""><small>{% trans 'Career' %}</small></a>
                 </div>
             </div>
             <div class="col-md-6 text-center text-lg-end">
@@ -72,6 +76,20 @@
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
             <span class="navbar-toggler-icon"></span>
         </button>
+        <div class="btn-group">
+            <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">{{ LANGUAGE_CODE|upper }}</button>
+            <div class="dropdown-menu dropdown-menu-right">
+<!-- translate -->
+                {% for i in LANGUAGES %}  
+                {% if LANGUAGE_CODE != i.0 %}
+                <a href="{% url 'set_lang' i.0 %}">
+                <button class="dropdown-item" type="button">{{i.0|upper}}</button></a>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    
+
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto py-0 me-n3">
                 <a href="index.html" class="nav-item nav-link active">Home</a>
